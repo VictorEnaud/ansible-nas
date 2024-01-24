@@ -1,0 +1,29 @@
+---
+- name: Create "{{ automation_user }}" User
+  user:
+    name: "{{ automation_user }}"
+    shell: /bin/bash
+    comment: "User for Ansible automation tasks"
+    state: present
+    password_lock: true
+  become: true
+
+- name: Add "{{automation_user}}" to sudoers
+  lineinfile:
+    path: /etc/sudoers.d/{{ automation_user }}
+    line: "{{ automation_user }}        ALL=(ALL)       NOPASSWD: ALL"
+    state: present
+    create: true
+  become: true
+
+- name: Ensure public key exists
+  ansible.builtin.stat:
+    path: ~/.ssh/id_rsa.pub
+  delegate_to: localhost
+
+- name: Set authorized key for "{{ automation_user }}"
+  ansible.posix.authorized_key:
+    user: "{{ automation_user }}"
+    state: present
+    key: "{{ lookup('file', '~/.ssh/id_raspberry.pub') }}"
+  become: true

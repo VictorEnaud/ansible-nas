@@ -1,0 +1,21 @@
+---
+##                       ._____.   .__
+##  _____    ____   _____|__\_ |__ |  |   ____             ____ _____    ______
+##  \__  \  /    \ /  ___/  || __ \|  | _/ __ \   ______  /    \\__  \  /  ___/
+##   / __ \|   |  \\___ \|  || \_\ \  |_\  ___/  /_____/ |   |  \/ __ \_\___ \
+##  (____  /___|  /____  >__||___  /____/\___  >         |___|  (____  /____  >
+##       \/     \/     \/        \/          \/               \/     \/     \/
+##     a n s i b l e - n a s      https://github.com/davestephens/ansible-nas
+
+# Add your all.yml config overrides to this file. See group_vars/all.yml for all possible settings.
+
+ansible_nas_user: "{{ vault_admin_username }}"
+ansible_nas_email: "{{ vault_nas_email }}"
+ansible_nas_domain: "{{ vault_nas_domain }}"
+
+ansible_nas_hostname: rasp-principal
+ansible_nas_timezone: Europe/Paris
+
+## Enable some applications
+dashy_enabled: false
+portainer_enabled: false
