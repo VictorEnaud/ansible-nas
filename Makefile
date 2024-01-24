@@ -32,4 +32,4 @@ bootstrap:
 .PHONY: deploy  ## Pour déployer le playbook avec ansible-playbook
 deploy:
 	if [ -z "$(TAG)" ]; then echo -e "Erreur la variable TAG n'est pas définie"; exit 1; fi
-	ansible-playbook -i inventories/perso/inventory nas.yml -t {TAG}
+	ansible-playbook -i inventories/perso/inventory playbooks/nas.yml -t ${TAG}
