@@ -85,6 +85,9 @@ samba_shares:
     public: yes
     writable: yes
     browseable: yes
+    directory_mode: 0775
+    owner: "{{ samba_guest_account }}"
+    group: "{{ samba_guest_account }}"
     path: "{{ downloads_root }}"
 
   - name: movies
@@ -93,6 +96,9 @@ samba_shares:
     public: yes
     writable: yes
     browseable: yes
+    directory_mode: 0775
+    owner: "{{ samba_guest_account }}"
+    group: "{{ samba_guest_account }}"
     path: "{{ movies_root }}"
 
   - name: tv
@@ -101,6 +107,9 @@ samba_shares:
     public: yes
     writable: yes
     browseable: yes
+    directory_mode: 0775
+    owner: "{{ samba_guest_account }}"
+    group: "{{ samba_guest_account }}"
     path: "{{ tv_root }}"
 
   - name: music
@@ -109,6 +118,9 @@ samba_shares:
     public: yes
     writable: yes
     browseable: yes
+    directory_mode: 0775
+    owner: "{{ samba_guest_account }}"
+    group: "{{ samba_guest_account }}"
     path: "{{ music_root }}"
 
   - name: podcasts
@@ -117,6 +129,9 @@ samba_shares:
     public: yes
     writable: yes
     browseable: yes
+    directory_mode: 0775
+    owner: "{{ samba_guest_account }}"
+    group: "{{ samba_guest_account }}"
     path: "{{ podcasts_root }}"
 
   - name: dump
@@ -125,6 +140,9 @@ samba_shares:
     public: yes
     writable: yes
     browseable: yes
+    directory_mode: 0775
+    owner: "{{ samba_guest_account }}"
+    group: "{{ samba_guest_account }}"
     path: "{{ samba_shares_root }}/dump"
 
   - name: games
@@ -133,6 +151,9 @@ samba_shares:
     public: yes
     writable: yes
     browseable: yes
+    directory_mode: 0775
+    owner: "{{ samba_guest_account }}"
+    group: "{{ samba_guest_account }}"
     path: "{{ samba_shares_root }}/games"
 
   - name: photos
@@ -141,6 +162,9 @@ samba_shares:
     public: yes
     writable: yes
     browseable: yes
+    directory_mode: 0775
+    owner: "{{ samba_guest_account }}"
+    group: "{{ samba_guest_account }}"
     path: "{{ photos_root }}"
 
   - name: books
@@ -149,6 +173,9 @@ samba_shares:
     public: yes
     writable: yes
     browseable: yes
+    directory_mode: 0775
+    owner: "{{ samba_guest_account }}"
+    group: "{{ samba_guest_account }}"
     path: "{{ books_root }}"
 
   - name: audiobooks
@@ -165,6 +192,9 @@ samba_shares:
     public: yes
     writable: yes
     browseable: yes
+    directory_mode: 0775
+    owner: "{{ samba_guest_account }}"
+    group: "{{ samba_guest_account }}"
     path: "{{ comics_root }}"
 
   - name: documents
@@ -173,6 +203,9 @@ samba_shares:
     public: yes
     writable: yes
     browseable: yes
+    directory_mode: 0775
+    owner: "{{ samba_guest_account }}"
+    group: "{{ samba_guest_account }}"
     path: "{{ documents_root }}"
 
   - name: code
@@ -181,6 +214,9 @@ samba_shares:
     public: yes
     writable: yes
     browseable: yes
+    directory_mode: 0775
+    owner: "{{ samba_guest_account }}"
+    group: "{{ samba_guest_account }}"
     path: "{{ code_root }}"
 
 ###

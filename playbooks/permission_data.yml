@@ -4,7 +4,7 @@
   tasks:
     - name: Warning!
       ansible.builtin.debug:
-        msg: "This playbook will repermission ALL existing data in the shares defined in group_vars/all.yml to be owned by the ansible-nas user and group. If this is not what you want, exit now."
+        msg: This playbook will repermission ALL existing data in the shares defined in group_vars/all.yml to be owned by the "{{ samba_guest_account }}" user and group. If this is not what you want, exit now.
 
     - name: 20s to change your mind...
       ansible.builtin.pause:
@@ -13,8 +13,8 @@
     - name: "Permission share data"
       ansible.builtin.file:
         path: "{{ item.path }}"
-        owner: ansible-nas
-        group: ansible-nas
+        owner: "{{ samba_guest_account }}"
+        group: "{{ samba_guest_account }}"
         mode: "u=rwX,g=rwX,o=rX"
         recurse: true
       loop: "{{ samba_shares }}"

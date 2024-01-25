@@ -4,20 +4,16 @@
 
   roles:
     ###
-    ### Requirements
+    ### Requirements for file share
     ###
-    - role: ansible-nas-users
+    - role: ansible-nas-samba
       tags:
-        - ansible-nas-users
-        - ansible-nas
-
-    - role: bertvv.samba
-      tags:
+        - never
         - samba
-        - skip_ansible_lint
 
     - role: geerlingguy.nfs
       tags:
+        - never
         - nfs
         - skip_ansible_lint
 
