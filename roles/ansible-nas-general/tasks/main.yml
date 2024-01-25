@@ -4,17 +4,11 @@
     src: motd.txt
     dest: /etc/motd
 
-- name: Update apt-cache
-  ansible.builtin.apt:
-    update_cache: yes
-    cache_valid_time: 3600
-  register: result
-  until: result is succeeded
-
-- name: Upgrade all packages # noqa package-latest
+- name: Upgrade all packages
   ansible.builtin.apt:
     upgrade: yes
     state: latest
+  become: true
   when: keep_packages_updated
   tags:
     - skip_ansible_lint
@@ -29,6 +23,7 @@
 - name: "Set hostname to {{ ansible_nas_hostname }}"
   ansible.builtin.hostname:
     name: "{{ ansible_nas_hostname }}"
+  become: true
 
 - name: "Set timezone to {{ ansible_nas_timezone }}"
   community.general.timezone:

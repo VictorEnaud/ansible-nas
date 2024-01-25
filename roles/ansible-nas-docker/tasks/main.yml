@@ -1,45 +1,30 @@
 ---
-- name: Install python3-pip
+- name: Install necessary packages for docker
   ansible.builtin.apt:
-    name: python3-pip
+    name:
+      - python3-pip
+      - python3-setuptools
+      - python3-docker
     state: present
   register: result
   until: result is succeeded
-
-- name: Remove docker-py python module
-  ansible.builtin.pip:
-    name: docker-py
-    state: absent
-  register: result
-  until: result is succeeded
-
-- name: Install docker python module
-  ansible.builtin.pip:
-    name: docker
-    state: present
-  register: result
-  until: result is succeeded
+  become: true
 
 - name: Create Docker home directory
   ansible.builtin.file:
     path: "{{ docker_home }}"
     mode: 0755
     state: directory
+  become: true
 
-- name: Add user account to Docker group
-  ansible.builtin.user:
-    name: "{{ ansible_nas_user }}"
-    groups: docker
-    append: yes
-
-- name: Generate Docker daemon.json
-  ansible.builtin.copy:
-    dest: /etc/docker/daemon.json
-    content: "{{ docker_daemon_json | to_nice_json }}"
-  register: docker_config
-
-- name: Restart Docker # noqa no-handler
-  ansible.builtin.service:
-    name: docker
-    state: restarted
-  when: docker_config.changed
+- ansible.builtin.include_role:
+    name: geerlingguy.docker
+    apply:
+      become: true
+  vars:
+    docker_packages_state: latest
+    docker_users:
+      - "{{ ansible_nas_user }}"
+    docker_daemon_options:
+      data-root: "{{ docker_image_directory }}"
+      storage-driver: "{{ docker_storage_driver }}"

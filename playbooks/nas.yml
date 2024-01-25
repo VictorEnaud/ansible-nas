@@ -1,8 +1,26 @@
 ---
-- name: Ansible-NAS
-  hosts: all
+- hosts: all
+  tasks:
+    - name: Populate APT's Cache with package definitions to avoid "no such package" errors
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+- hosts: all
 
   roles:
+    ###
+    ### Ansible-NAS set-up
+    ###
+    - role: ansible-nas-general
+      tags:
+        - ansible-nas-general
+        - setup
+
+    - role: ansible-nas-docker
+      tags:
+        - ansible-nas-docker
+        - setup
+
     ###
     ### Requirements for file share
     ###
@@ -16,31 +34,6 @@
         - never
         - nfs
         - skip_ansible_lint
-
-    - role: geerlingguy.docker
-      when: ansible_architecture == "x86_64"
-      tags:
-        - docker
-        - skip_ansible_lint
-
-    - role: geerlingguy.docker_arm
-      when: ansible_architecture == "aarch64"
-      tags:
-        - docker_arm
-        - skip_ansible_lint
-
-    ###
-    ### Ansible-NAS Roles
-    ###
-    - role: ansible-nas-general
-      tags:
-        - ansible-nas-general
-        - ansible-nas
-
-    - role: ansible-nas-docker
-      tags:
-        - ansible-nas-docker
-        - ansible-nas
 
     ###
     ### Stacks
