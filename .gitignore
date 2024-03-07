@@ -19,5 +19,7 @@ Session.vim
 
 # IntelliJ
 /.idea/
+*.iml
 
 .vault-password
+venv/
