@@ -7,14 +7,15 @@
         state: directory
       with_items:
         - "{{ homeassistant_data_directory }}/config"
+      become: true
 
     - name: Home Assistant Docker Container
       community.docker.docker_container:
         name: "{{ homeassistant_container_name }}"
         image: "{{ homeassistant_image_name }}:{{ homeassistant_image_version }}"
-        pull: true
         volumes:
           - "{{ homeassistant_data_directory }}/config:/config:rw"
+          - /run/dbus:/run/dbus:ro
         network_mode: host
         restart_policy: unless-stopped
         env:
@@ -27,7 +28,28 @@
           traefik.http.routers.homeassistant.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.homeassistant.loadbalancer.server.port: "8123"
         memory: "{{ homeassistant_memory }}"
+
+    - name: Check if HACS was already installed
+      stat:
+        path: "{{ homeassistant_data_directory }}/config/hacs-setup.sh"
+      register: hacs
+
+    - name: Download HACS install script
+      ansible.builtin.get_url:
+        url: https://get.hacs.xyz
+        dest: "{{ homeassistant_data_directory }}/config/hacs-setup.sh"
+        mode: '0755'
+      when: not hacs.stat.exists
+
+    - name: Execute HACS install script
+      shell: "{{ homeassistant_data_directory }}/config/hacs-setup.sh"
+      args:
+        chdir: "{{ homeassistant_data_directory }}/config"
+      become: true
+      when: not hacs.stat.exists
+
   when: homeassistant_enabled is true
+  become: true
 
 - name: Stop homeassistant
   block:

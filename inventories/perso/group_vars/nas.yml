@@ -9,6 +9,9 @@
 
 # Add your all.yml config overrides to this file. See group_vars/all.yml for all possible settings.
 
+automation_user: ansible
+ansible_user: "{{ automation_user }}"
+
 ansible_nas_user: "{{ vault_admin_username }}"
 ansible_nas_email: "{{ vault_nas_email }}"
 ansible_nas_domain: "{{ vault_nas_domain }}"
@@ -19,3 +22,10 @@ ansible_nas_timezone: Europe/Paris
 ## Enable some applications
 dashy_enabled: false
 portainer_enabled: false
+homeassistant_enabled: true
+
+## customisation
+keep_packages_updated: true
+ansible_nas_extra_packages:
+  - htop
+
