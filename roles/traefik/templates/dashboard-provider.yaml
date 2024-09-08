@@ -1,0 +1,28 @@
+http:
+  routers:
+    dashboard:
+      rule: Host(`{{ traefik_hostname }}.{{ ansible_nas_domain }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      service: api@internal
+      entryPoints:
+        - web
+      middlewares:
+        - dashboard-https
+        - dashboard-auth
+    dashboard-secure:
+      rule: Host(`{{ traefik_hostname }}.{{ ansible_nas_domain }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      service: api@internal
+      entryPoints:
+        - websecure
+      middlewares:
+        - dashboard-auth
+      tls:
+        certResolver: letsencrypt
+
+  middlewares:
+    dashboard-https:
+      redirectScheme:
+        scheme: https
+    dashboard-auth:
+      basicAuth:
+        users:
+          - {{ traefik_dashboard_user }}:{{ vault_traefik_password }}

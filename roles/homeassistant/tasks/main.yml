@@ -7,7 +7,6 @@
         state: directory
       with_items:
         - "{{ homeassistant_data_directory }}/config"
-      become: true
 
     - name: Home Assistant Docker Container
       community.docker.docker_container:

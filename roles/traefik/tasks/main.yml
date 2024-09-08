@@ -9,26 +9,40 @@
         - "{{ traefik_data_directory }}"
         - "{{ traefik_data_directory }}/letsencrypt"
 
-    - name: Template Traefik config.toml
+    - name: Template Traefik traefik.yaml
       ansible.builtin.template:
-        src: traefik.toml
-        dest: "{{ traefik_data_directory }}/traefik.toml"
+        src: traefik.yaml
+        dest: "{{ traefik_data_directory }}/traefik.yaml"
+      register: template_config
+
+    - name: Template Traefik nas-provider.yaml
+      ansible.builtin.template:
+        src: nas-provider.yaml
+        dest: "{{ traefik_data_directory }}/nas-provider.yaml"
+      register: template_config
+
+    - name: Template Traefik dashboard-provider.yaml
+      ansible.builtin.template:
+        src: dashboard-provider.yaml
+        dest: "{{ traefik_data_directory }}/dashboard-provider.yaml"
       register: template_config
 
     - name: Traefik Docker Container
       community.docker.docker_container:
         name: "{{ traefik_container_name }}"
         image: "{{ traefik_image_name }}:{{ traefik_image_version }}"
-        pull: true
         network_mode: host
         volumes:
-          - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
+          - "{{ traefik_data_directory }}/traefik.yaml:/etc/traefik/traefik.yaml:ro"
+          - "{{ traefik_data_directory }}/nas-provider.yaml:/etc/traefik/providers/nas-provider.yaml:ro"
+          - "{{ traefik_data_directory }}/dashboard-provider.yaml:/etc/traefik/providers/dashboard-provider.yaml:ro"
           - "{{ traefik_data_directory }}/letsencrypt:/letsencrypt:rw"
           - "/var/run/docker.sock:/var/run/docker.sock:ro"
         env: "{{ traefik_environment_variables }}"
         restart_policy: unless-stopped
         memory: "{{ traefik_memory }}"
         recreate: "{{ template_config is changed }}"
+      become: true
   when: traefik_enabled is true
 
 - name: Stop Traefik

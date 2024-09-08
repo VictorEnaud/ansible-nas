@@ -23,6 +23,8 @@ ansible_nas_timezone: Europe/Paris
 dashy_enabled: false
 portainer_enabled: false
 homeassistant_enabled: true
+homeassistant_available_externally: true
+traefik_enabled: true
 
 ## customisation
 keep_packages_updated: true

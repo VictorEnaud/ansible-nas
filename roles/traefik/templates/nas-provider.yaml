@@ -1,0 +1,15 @@
+http:
+  routers:
+    router-nas:
+      entryPoints:
+        - websecure
+      rule: "HostRegexp(`^(?:.+\\.)?nas\\.{{ ansible_nas_domain | replace('.','\\\\.') }}$`)"
+      service: service-nas
+      tls:
+        certResolver: letsencrypt
+  services:
+    service-nas:
+      loadBalancer:
+        passHostHeader: true
+        servers:
+          - url: "https://192.168.50.169"
