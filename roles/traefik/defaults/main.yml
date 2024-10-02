@@ -30,6 +30,7 @@ traefik_environment_variables:
   OVH_APPLICATION_SECRET: "{{ vault_OVH_APPLICATION_SECRET }}"
   OVH_CONSUMER_KEY: "{{ vault_OVH_CONSUMER_KEY }}"
   OVH_ENDPOINT: "ovh-eu"
+  LEGO_DISABLE_CNAME_SUPPORT: "true"
 
 # Ansible-NAS requests a wildcard certificate for your domain, so there should be no reason to have to use the staging
 # letsencrypt acme server. If you do want to flip between staging/production, you might need to stop Traefik and clear

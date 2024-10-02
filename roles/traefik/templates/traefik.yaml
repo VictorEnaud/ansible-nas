@@ -32,6 +32,7 @@ providers:
 
 api:
   dashboard: true
+  insecure: false
 
 log:
   level: "{{ traefik_log_level }}"
@@ -44,7 +45,7 @@ certificatesResolvers:
     acme:
       email: "{{ ansible_nas_email }}"
       storage: "/letsencrypt/acme.json"
-      caserver: "{{ traefik_acme_server }}"
+      caServer: "{{ traefik_acme_server }}"
 
       dnsChallenge:
         provider: "{{ traefik_dns_provider }}"
