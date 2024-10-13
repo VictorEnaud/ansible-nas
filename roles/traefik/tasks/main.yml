@@ -7,6 +7,7 @@
         state: directory
       with_items:
         - "{{ traefik_data_directory }}"
+        - "{{ traefik_data_directory }}/providers"
         - "{{ traefik_data_directory }}/letsencrypt"
 
     - name: Template Traefik traefik.yaml
@@ -18,13 +19,13 @@
     - name: Template Traefik nas-provider.yaml
       ansible.builtin.template:
         src: nas-provider.yaml
-        dest: "{{ traefik_data_directory }}/nas-provider.yaml"
+        dest: "{{ traefik_data_directory }}/providers/nas-provider.yaml"
       register: template_config
 
     - name: Template Traefik dashboard-provider.yaml
       ansible.builtin.template:
         src: dashboard-provider.yaml
-        dest: "{{ traefik_data_directory }}/dashboard-provider.yaml"
+        dest: "{{ traefik_data_directory }}/providers/dashboard-provider.yaml"
       register: template_config
 
     - name: Traefik Docker Container
@@ -34,8 +35,7 @@
         network_mode: host
         volumes:
           - "{{ traefik_data_directory }}/traefik.yaml:/etc/traefik/traefik.yaml:ro"
-          - "{{ traefik_data_directory }}/nas-provider.yaml:/etc/traefik/providers/nas-provider.yaml:ro"
-          - "{{ traefik_data_directory }}/dashboard-provider.yaml:/etc/traefik/providers/dashboard-provider.yaml:ro"
+          - "{{ traefik_data_directory }}/providers:/etc/traefik/providers:ro"
           - "{{ traefik_data_directory }}/letsencrypt:/letsencrypt:rw"
           - "/var/run/docker.sock:/var/run/docker.sock:ro"
         env: "{{ traefik_environment_variables }}"

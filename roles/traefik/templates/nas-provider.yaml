@@ -7,6 +7,10 @@ http:
       service: service-nas
       tls:
         certResolver: letsencrypt
+        domains:
+          - main: "nas.{{ ansible_nas_domain }}"
+            sans:
+              - "*.nas.{{ ansible_nas_domain }}"
   services:
     service-nas:
       loadBalancer:

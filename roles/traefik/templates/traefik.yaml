@@ -13,14 +13,6 @@ entryPoints:
     http:
       tls:
         certResolver: "letsencrypt"
-        domains:
-          main:
-            - "{{ ansible_nas_domain }}"
-          sans:
-            - "*.{{ ansible_nas_domain }}"
-
-#  traefik:
-#    address: ":{{ traefik_port_ui }}"
 
 providers:
   providersThrottleDuration: "2s"
@@ -31,7 +23,7 @@ providers:
     watch: true
 
 api:
-  dashboard: true
+  dashboard: false
   insecure: false
 
 log:
@@ -56,4 +48,4 @@ metrics:
 serversTransport:
   insecureSkipVerify: true
 
-accessLog: {}
+accessLog: false
