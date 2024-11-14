@@ -24,6 +24,8 @@ dashy_enabled: false
 portainer_enabled: false
 homeassistant_enabled: true
 homeassistant_available_externally: true
+immich_enabled: true
+immich_available_externally: false
 traefik_enabled: true
 
 ## customisation

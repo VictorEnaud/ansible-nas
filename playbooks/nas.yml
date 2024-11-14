@@ -171,6 +171,10 @@
       tags:
         - homebridge
 
+    - role: immich
+      tags:
+        - immich
+
     - role: jackett
       tags:
         - jackett

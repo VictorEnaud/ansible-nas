@@ -1,0 +1,24 @@
+---
+immich_enabled: false
+immich_available_externally: false
+
+# directories
+immich_data_directory: "{{ docker_home }}/immich"
+immich_library_directory: "library"
+immich_nas_library_directory: "/mnt/nas/photo"
+immich_database_directory: "database"
+
+# network
+immich_port: "8123"
+immich_hostname: "immich"
+
+# docker
+immich_image_version: "v1.120.2"
+
+# database
+immich_db_username: "postgres"
+immich_db_password: "{{ vault_immich_db_password }}"
+immich_db_name: "immich"
+
+# specs
+immich_memory: 1g

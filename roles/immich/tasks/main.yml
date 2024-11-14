@@ -1,0 +1,36 @@
+---
+- name: Start Immich
+  block:
+    - name: Create Immich Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ immich_data_directory }}/{{ immich_library_directory }}"
+        - "{{ immich_data_directory }}/{{ immich_database_directory }}"
+
+    - name: Template env file
+      ansible.builtin.template:
+        src: .env
+        dest: "{{ immich_data_directory }}"
+
+    - name: Template docker-compose file
+      ansible.builtin.template:
+        src: docker-compose.yml
+        dest: "{{ immich_data_directory }}"
+
+    - name: Immich Docker Compose
+      community.docker.docker_compose_v2:
+        project_src: "{{ immich_data_directory }}"
+        state: present
+
+  when: immich_enabled is true
+  become: true
+
+- name: Stop immich
+  block:
+    - name: Stop immich
+      community.docker.docker_compose_v2:
+        project_src: "{{ immich_data_directory }}"
+        state: absent
+  when: immich_enabled is false
